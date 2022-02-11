@@ -8,8 +8,9 @@ namespace LearnBinaryLibrary
 {
     public class Calculator
     {
-        private byte value1_;
-        private byte value2_;
+        private byte value1_ = byte.MinValue;
+        private byte value2_ = byte.MinValue;
+
         public Calculator(byte val1, byte val2)
         {
             value1_ = val1;
