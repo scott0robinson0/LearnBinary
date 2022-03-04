@@ -32,5 +32,11 @@ namespace LearnBinaryTesting
         {
             Assert.AreEqual(calculator.Div(), 25);
         }
+
+        [TestMethod]
+        public void TestStaticAdd()
+        {
+            Assert.AreEqual(Calculator.Add(2, 3), 5);
+        }
     }
 }

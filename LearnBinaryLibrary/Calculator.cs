@@ -17,24 +17,29 @@ namespace LearnBinaryLibrary
             value2_ = val2;
         }
 
-        public byte Add()
+        public ushort Add()
         {
-            return (byte)(value1_ + value2_);
+            return (ushort)(value1_ + value2_);
         }
 
-        public byte Sub()
+        public ushort Sub()
         {
-            return (byte)(value1_ - value2_);
+            return (ushort)(value1_ - value2_);
         }
 
-        public byte Mul()
+        public ushort Mul()
         {
-            return (byte)(value1_ * value2_);
+            return (ushort)(value1_ * value2_);
         }
 
-        public byte Div()
+        public ushort Div()
         {
-            return (byte)(value1_ / value2_);
+            return (ushort)(value1_ / value2_);
+        }
+
+        public static ushort Add(byte value1, byte value2)
+        {
+            return (ushort)(value1 + value2);
         }
     }
 }

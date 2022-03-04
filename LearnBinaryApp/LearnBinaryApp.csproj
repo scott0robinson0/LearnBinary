@@ -154,6 +154,12 @@
       <Version>6.2.12</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LearnBinaryLibrary\LearnBinaryLibrary.csproj">
+      <Project>{556261d8-c61c-49e1-be27-16094216cccd}</Project>
+      <Name>LearnBinaryLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

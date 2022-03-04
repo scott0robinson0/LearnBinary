@@ -9,6 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <TextBlock x:Name="test"/>
+        <Button x:Name="NewQuestion" Content="New Question" Click="NewQuestion_Click"/>
     </Grid>
 </Page>
