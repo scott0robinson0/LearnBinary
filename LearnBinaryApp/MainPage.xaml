@@ -9,7 +9,14 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock x:Name="test"/>
-        <Button x:Name="NewQuestion" Content="New Question" Click="NewQuestion_Click"/>
+        <StackPanel>
+            <TextBlock x:Name="test"/>
+            <TextBox x:Name="txtAnswer"/>
+            <Button x:Name="btnSubmitAnswer" Content="Submit Answer" Click="btnSubmitAnswer_Click"/>
+            <Button x:Name="btnRevealAnswer" Content="Reveal Answer" Click="btnRevealAnswer_Click"/>
+            <TextBlock x:Name="txtRevealAnswer"/>
+            <TextBlock x:Name="tbResult"/>
+            <Button x:Name="NewQuestion" Content="New Question" Click="NewQuestion_Click"/>
+        </StackPanel>
     </Grid>
 </Page>

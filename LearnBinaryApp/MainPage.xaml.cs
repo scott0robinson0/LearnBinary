@@ -23,10 +23,14 @@ namespace LearnBinaryApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private static Question question = new Question();
         public MainPage()
         {
             this.InitializeComponent();
 
+            test.Text = question.GenerateQuestion();
+
+            question.QuestionType = "conversion";
             //byte val1 = 10;
             //byte val2 = 20;
             //ushort val3 = 0;
@@ -43,9 +47,25 @@ namespace LearnBinaryApp
 
         private void NewQuestion_Click(object sender, RoutedEventArgs e)
         {
-            Question question = new Question();
-
             test.Text = question.GenerateQuestion();
+            txtRevealAnswer.Text = question.CorrectAnswer;
+        }
+
+        private void btnSubmitAnswer_Click(object sender, RoutedEventArgs e)
+        {
+            if (question.SubmitAnswer(txtAnswer.Text))
+            {
+                tbResult.Text = "Correct";
+            }
+            else
+            {
+                tbResult.Text = "Incorrect";
+            }
+        }
+
+        private void btnRevealAnswer_Click(object sender, RoutedEventArgs e)
+        {
+            txtRevealAnswer.Text = question.CorrectAnswer;
         }
     }
 }
