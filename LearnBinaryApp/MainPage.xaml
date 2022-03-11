@@ -10,7 +10,7 @@
 
     <Grid>
         <StackPanel>
-            <TextBlock x:Name="test"/>
+            <TextBlock x:Name="txtQuestion"/>
             <TextBox x:Name="txtAnswer"/>
             <Button x:Name="btnSubmitAnswer" Content="Submit Answer" Click="btnSubmitAnswer_Click"/>
             <Button x:Name="btnRevealAnswer" Content="Reveal Answer" Click="btnRevealAnswer_Click"/>

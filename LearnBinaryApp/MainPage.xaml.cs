@@ -28,44 +28,25 @@ namespace LearnBinaryApp
         {
             this.InitializeComponent();
 
-            test.Text = question.GenerateQuestion();
+            txtQuestion.Text = question.ToString();
 
-            question.QuestionType = "conversion";
-            //byte val1 = 10;
-            //byte val2 = 20;
-            //ushort val3 = 0;
-
-            //val3 = Convert.ToUInt16(val1 + val2);
-
-            //test.Text = Convert.ToString(val3, 2);
-
-            //test.Text = Convert.ToString(val1, 2).PadLeft(8, '0');
-
-            //test.Text = Convert.ToString((val1 - val2), 2);
-
+            // Colour code binary and decimal numbers to differentiate them, e.g. 11 could be 3 or eleven.
         }
 
         private void NewQuestion_Click(object sender, RoutedEventArgs e)
         {
-            test.Text = question.GenerateQuestion();
-            txtRevealAnswer.Text = question.CorrectAnswer;
+            question = new Question();
+            txtQuestion.Text = question.ToString();
         }
 
         private void btnSubmitAnswer_Click(object sender, RoutedEventArgs e)
         {
-            if (question.SubmitAnswer(txtAnswer.Text))
-            {
-                tbResult.Text = "Correct";
-            }
-            else
-            {
-                tbResult.Text = "Incorrect";
-            }
+            question.CheckAnswer(txtAnswer.Text);
         }
 
         private void btnRevealAnswer_Click(object sender, RoutedEventArgs e)
         {
-            txtRevealAnswer.Text = question.CorrectAnswer;
+            txtRevealAnswer.Text = question.CorrectAnswer.ToString();
         }
     }
 }

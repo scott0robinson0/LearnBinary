@@ -13,11 +13,15 @@ namespace LearnBinaryLibrary
 
         private readonly char[] validOperators = new char[] { '+', '-', '*', '/' };
 
-        private readonly int[] validBases = new int[] { 2, 10 };
+        private readonly Dictionary<int, string> validBases = new Dictionary<int, string> { { 2, "binary" }, { 10, "decimal" } };
 
         private readonly Random random = new Random();
 
 
+
+
+        private string correctAnswer_;
+        public string CorrectAnswer { get => correctAnswer_; }
 
         private string questionType_;
         public string QuestionType
@@ -82,33 +86,24 @@ namespace LearnBinaryLibrary
         }
 
 
-        private ushort correctAnswer_;
-        public ushort CorrectAnswer
-        {
-            get => correctAnswer_;
 
-            set => correctAnswer_ = value >= ushort.MinValue && value <= ushort.MaxValue ? value : throw new ArgumentOutOfRangeException("Error - Value is not within the valid range for an unsigned short (0 to 32767)");
+        private int GetBaseIfValid(int _base)
+        {
+            return validBases.ContainsKey(_base) ? _base : throw new ArgumentException("Error - Invalid base ", _base.ToString());
         }
 
-
-
-        private int GetBaseIfValid(int value)
+        private byte GetByteIfValid(byte _byte)
         {
-            return validBases.Contains(value) ? value : throw new ArgumentException("Error - Invalid base ", value.ToString());
-        }
-
-        private byte GetByteIfValid(byte value)
-        {
-            return value >= byte.MinValue && value <= byte.MaxValue
-                ? value
-                : throw new ArgumentOutOfRangeException("Error - Value is not within the valid range for a byte (0 to 255)", value.ToString());
+            return _byte >= byte.MinValue && _byte <= byte.MaxValue
+                ? _byte
+                : throw new ArgumentOutOfRangeException("Error - Value is not within the valid range for a byte (0 to 255)", _byte.ToString());
         }
 
 
 
         public int GenerateRandomBase()
         {
-            return validBases[random.Next(0, validBases.Length)];
+            return validBases.ElementAt(random.Next(0, validBases.Count())).Key;
         }
 
 
@@ -124,163 +119,187 @@ namespace LearnBinaryLibrary
         }
 
 
-        public int GenerateRandomNumber(int min, int max)
+        public byte GenerateRandomByte()
         {
-            return random.Next(min, max + 1);
+            return Convert.ToByte(random.Next(byte.MinValue, byte.MaxValue + 1));
         }
 
 
         public void CalculateCorrectAnswer()
         {
-            switch (Operator) // better to use operator_?
+            switch (QuestionType)
             {
-                case '+':
-                    CorrectAnswer = Value1 + Value2;
+                case "conversion":
+                    correctAnswer_ = Convert.ToString(Value1, AnswerBase);
                     break;
-                case '-':
-                    CorrectAnswer = value1_ - value2_;
+                case "arithmetic":
+                    switch (Operator) // better to use operator_?
+                    {
+                        case '+':
+                            correctAnswer_ = (Value1 + Value2).ToString();
+                            break;
+                        case '-':
+                            correctAnswer_ = (Value1 - Value2).ToString();
+                            break;
+                        case '*':
+                            correctAnswer_ = (Value1 * Value2).ToString();
+                            break;
+                        case '/':
+                            correctAnswer_ = (Value1 / Value2).ToString();
+                            break;
+                    }
                     break;
-                case '*':
-                    CorrectAnswer = value1_ * value2_;
-                    break;
-                case '/':
-                    CorrectAnswer = value1_ / value2_;
-                    break;
+            }
+
+        }
+
+
+        public bool CheckAnswer(string answer)
+        {
+            return answer == correctAnswer_;
+        }
+
+
+        public override string ToString()
+        {
+            switch (QuestionType)
+            {
+                case "conversion":
+                    return "What is " + Convert.ToString(Value1, Value1Base) + " in " + validBases[AnswerBase] + "?"; // "What is " is repeated. create string starting with "What is " and append the rest?
+                case "arithmetic":
+                    return "What is " + Convert.ToString(Value1, Value1Base) + " " + Operator + " " + Convert.ToString(Value2, Value2Base) + " in " + validBases[AnswerBase] + "?";
+                default:
+                    throw new ArgumentException("Error in ToString() - Invalid question type ", QuestionType);
             }
         }
 
-        //public string ToString()
+
+
+        public Question()
+        {
+            QuestionType = GenerateRandomQuestionType();
+            Operator = GenerateRandomOperator();
+            Value1Base = GenerateRandomBase();
+            Value2Base = GenerateRandomBase();
+            AnswerBase = GenerateRandomBase();
+            Value1 = GenerateRandomByte();
+            Value2 = GenerateRandomByte();
+            CalculateCorrectAnswer();
+        }
+
+
+
+
+
+
+
+
+
+
+        //private string ToBinaryOrDecimal(int value)
         //{
-        //    switch (questionType_)
+        //    switch (random.Next(0, 2))
         //    {
-        //        case "conversion":
-
-        //            break;
-        //        case "arithmetic":
-
-        //            break;
+        //        case 0:
+        //            return Convert.ToString(value, 2);
+        //        case 1:
+        //            return value.ToString();
+        //        default:
+        //            return "ToBinaryOrDecimal() Failed";
         //    }
         //}
 
 
 
+        //public Question(string questionType, int numberSystem) { }
 
+        //public Question(string questionType) { }
 
+        //public Question(int numberSystem) { }
 
+        //public string GenerateQuestion()
+        //{
+        //    int value1 = random.Next(0, 256);
 
+        //    int value2 = random.Next(0, 256);
 
+        //    string question = "What is ";
 
+        //    switch (random.Next(0, 2))
+        //    {
+        //        case 0:
+        //            switch (random.Next(0, 2))
+        //            {
+        //                case 0:
+        //                    question += "the binary equivelant of " + value1;
+        //                    CorrectAnswer = Convert.ToString(value1, 2);
+        //                    break;
+        //                case 1:
+        //                    question += "the decimal equivelant of " + Convert.ToString(value1, 2);
+        //                    CorrectAnswer = value1.ToString();
+        //                    break;
+        //            }
+        //            break;
+        //        case 1:
+        //            switch (random.Next(0, 2))
+        //            {
+        //                case 0:
+        //                    switch (random.Next(0, 4))
+        //                    {
+        //                        case 0:
+        //                            question += ToBinaryOrDecimal(value1) + " + " + ToBinaryOrDecimal(value2);
+        //                            CorrectAnswer = (value1 + value2).ToString();
+        //                            break;
+        //                        case 1:
+        //                            question += ToBinaryOrDecimal(value1) + " - " + ToBinaryOrDecimal(value2);
+        //                            CorrectAnswer = (value1 - value2).ToString();
+        //                            break;
+        //                        case 2:
+        //                            question += ToBinaryOrDecimal(value1) + " * " + ToBinaryOrDecimal(value2);
+        //                            CorrectAnswer = (value1 * value2).ToString();
+        //                            break;
+        //                        case 3:
+        //                            question += ToBinaryOrDecimal(value1) + " / " + ToBinaryOrDecimal(value2);
+        //                            CorrectAnswer = (value1 / value2).ToString();
+        //                            // might divide by zero
+        //                            break;
+        //                    }
+        //                    question += " in decimal";
+        //                    break;
+        //                case 1:
+        //                    switch (random.Next(0, 4))
+        //                    {
+        //                        case 0:
+        //                            question += ToBinaryOrDecimal(value1) + " + " + ToBinaryOrDecimal(value2);
+        //                            CorrectAnswer = Convert.ToString(value1 + value2, 2);
+        //                            break;
+        //                        case 1:
+        //                            question += ToBinaryOrDecimal(value1) + " - " + ToBinaryOrDecimal(value2);
+        //                            CorrectAnswer = Convert.ToString(value1 - value2, 2);
+        //                            // answer might be negative. ask for answer in decimal?
+        //                            break;
+        //                        case 2:
+        //                            question += ToBinaryOrDecimal(value1) + " * " + ToBinaryOrDecimal(value2);
+        //                            CorrectAnswer = Convert.ToString(value1 * value2, 2);
+        //                            break;
+        //                        case 3:
+        //                            question += ToBinaryOrDecimal(value1) + " / " + ToBinaryOrDecimal(value2);
+        //                            CorrectAnswer = Convert.ToString(value1 / value2, 2);
+        //                            break;
+        //                    }
+        //                    question += " in binary";
+        //                    break;
+        //            }
+        //            break;
+        //    }
+        //    question += "?";
+        //    return question;
+        //}
 
-
-
-
-
-
-
-        private string ToBinaryOrDecimal(int value)
-        {
-            switch (random.Next(0, 2))
-            {
-                case 0:
-                    return Convert.ToString(value, 2);
-                case 1:
-                    return value.ToString();
-                default:
-                    return "ToBinaryOrDecimal() Failed";
-            }
-        }
-
-        public Question() { }
-
-        public Question(string questionType, int numberSystem) { }
-
-        public Question(string questionType) { }
-
-        public Question(int numberSystem) { }
-
-        public string GenerateQuestion()
-        {
-            int value1 = random.Next(0, 256);
-
-            int value2 = random.Next(0, 256);
-
-            string question = "What is ";
-
-            switch (random.Next(0, 2))
-            {
-                case 0:
-                    switch (random.Next(0, 2))
-                    {
-                        case 0:
-                            question += "the binary equivelant of " + value1;
-                            CorrectAnswer = Convert.ToString(value1, 2);
-                            break;
-                        case 1:
-                            question += "the decimal equivelant of " + Convert.ToString(value1, 2);
-                            CorrectAnswer = value1.ToString();
-                            break;
-                    }
-                    break;
-                case 1:
-                    switch (random.Next(0, 2))
-                    {
-                        case 0:
-                            switch (random.Next(0, 4))
-                            {
-                                case 0:
-                                    question += ToBinaryOrDecimal(value1) + " + " + ToBinaryOrDecimal(value2);
-                                    CorrectAnswer = (value1 + value2).ToString();
-                                    break;
-                                case 1:
-                                    question += ToBinaryOrDecimal(value1) + " - " + ToBinaryOrDecimal(value2);
-                                    CorrectAnswer = (value1 - value2).ToString();
-                                    break;
-                                case 2:
-                                    question += ToBinaryOrDecimal(value1) + " * " + ToBinaryOrDecimal(value2);
-                                    CorrectAnswer = (value1 * value2).ToString();
-                                    break;
-                                case 3:
-                                    question += ToBinaryOrDecimal(value1) + " / " + ToBinaryOrDecimal(value2);
-                                    CorrectAnswer = (value1 / value2).ToString();
-                                    // might divide by zero
-                                    break;
-                            }
-                            question += " in decimal";
-                            break;
-                        case 1:
-                            switch (random.Next(0, 4))
-                            {
-                                case 0:
-                                    question += ToBinaryOrDecimal(value1) + " + " + ToBinaryOrDecimal(value2);
-                                    CorrectAnswer = Convert.ToString(value1 + value2, 2);
-                                    break;
-                                case 1:
-                                    question += ToBinaryOrDecimal(value1) + " - " + ToBinaryOrDecimal(value2);
-                                    CorrectAnswer = Convert.ToString(value1 - value2, 2);
-                                    // answer might be negative. ask for answer in decimal?
-                                    break;
-                                case 2:
-                                    question += ToBinaryOrDecimal(value1) + " * " + ToBinaryOrDecimal(value2);
-                                    CorrectAnswer = Convert.ToString(value1 * value2, 2);
-                                    break;
-                                case 3:
-                                    question += ToBinaryOrDecimal(value1) + " / " + ToBinaryOrDecimal(value2);
-                                    CorrectAnswer = Convert.ToString(value1 / value2, 2);
-                                    break;
-                            }
-                            question += " in binary";
-                            break;
-                    }
-                    break;
-            }
-            question += "?";
-            return question;
-        }
-
-        public bool SubmitAnswer(string answer)
-        {
-            return answer == CorrectAnswer;
-        }
+        //public bool SubmitAnswer(string answer)
+        //{
+        //    return answer == CorrectAnswer;
+        //}
 
     }
 }
