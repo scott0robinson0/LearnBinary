@@ -19,7 +19,6 @@ namespace LearnBinaryLibrary
 
 
 
-
         private string correctAnswer_;
         public string CorrectAnswer { get => correctAnswer_; }
 
@@ -91,6 +90,7 @@ namespace LearnBinaryLibrary
         {
             return validBases.ContainsKey(_base) ? _base : throw new ArgumentException("Error - Invalid base ", _base.ToString());
         }
+
 
         private byte GetByteIfValid(byte _byte)
         {

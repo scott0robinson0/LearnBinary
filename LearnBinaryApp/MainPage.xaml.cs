@@ -30,6 +30,10 @@ namespace LearnBinaryApp
 
             txtQuestion.Text = question.ToString();
 
+            int test = -2;
+
+            txtQuestion.Text = Convert.ToString(test, 2);
+
             // Colour code binary and decimal numbers to differentiate them, e.g. 11 could be 3 or eleven.
         }
 
