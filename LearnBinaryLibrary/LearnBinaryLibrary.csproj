@@ -120,6 +120,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ArithmeticQuestion.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="ConversionQuestion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

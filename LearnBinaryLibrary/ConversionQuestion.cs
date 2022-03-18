@@ -8,6 +8,14 @@ namespace LearnBinaryLibrary
 {
     public class ConversionQuestion : Question
     {
+        public override void CalculateCorrectAnswer()
+        {
+            correctAnswer_ = Convert.ToString(Value1, CorrectAnswerBase);
+        }
 
+        public override string ToString()
+        {
+            return "What is " + Convert.ToString(Value1, Value1Base) + " in " + validBases[CorrectAnswerBase] + "?";
+        }
     }
 }
