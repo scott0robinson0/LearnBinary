@@ -12,8 +12,7 @@ namespace LearnBinaryLibrary
 
         protected readonly Random random = new Random();
 
-        protected string correctAnswer_;
-        public string CorrectAnswer => correctAnswer_;
+
 
         private int value1Base_;
         public int Value1Base
@@ -63,21 +62,11 @@ namespace LearnBinaryLibrary
 
         public virtual void CalculateCorrectAnswer() { }
 
-        public bool CheckAnswer(string answer)
-        {
-            return answer == correctAnswer_;
-        }
-
         public Question()
         {
-            QuestionType = GenerateRandomQuestionType();
-            Operator = GenerateRandomOperator();
             Value1Base = GenerateRandomBase();
-            Value2Base = GenerateRandomBase();
             CorrectAnswerBase = GenerateRandomBase();
             Value1 = GenerateRandomByte();
-            Value2 = GenerateRandomByte();
-            CalculateCorrectAnswer();
         }
 
 

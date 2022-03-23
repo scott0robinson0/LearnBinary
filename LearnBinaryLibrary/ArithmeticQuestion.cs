@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LearnBinaryLibrary
 {
     public class ArithmeticQuestion : Question
     {
         private readonly char[] validOperators = new char[] { '+', '-', '*', '/' };
+
+        public double CorrectAnswer { get; private set; }
 
         private char operator_;
         public char Operator
@@ -34,21 +33,64 @@ namespace LearnBinaryLibrary
             set => value2_ = GetByteIfValid(value);
         }
 
+        public ArithmeticQuestion()
+        {
+            Operator = GenerateRandomOperator();
+            Value2 = GenerateRandomByte();
+            Value2Base = GenerateRandomBase();
+
+            while (Value1Base == 10 && Value2Base == 10)
+            {
+                Value1Base = GenerateRandomBase();
+                Value2Base = GenerateRandomBase();
+            }
+
+            CalculateCorrectAnswer();
+
+            if (CorrectAnswer < 0)
+            {
+                CorrectAnswerBase = 10;
+            }
+
+            while (CorrectAnswer < 1 && CorrectAnswer >= 0)
+            {
+                Value1 = GenerateRandomByte();
+                Value2 = GenerateRandomByte();
+                CalculateCorrectAnswer();
+            }
+
+        }
+        public bool CheckAnswer(string answer)
+        {
+            return answer == CorrectAnswer.ToString();
+        }
+
         public override void CalculateCorrectAnswer()
         {
             switch (Operator) // better to use operator_?
             {
                 case '+':
-                    correctAnswer_ = (Value1 + Value2).ToString();
+                    CorrectAnswer = Value1 + Value2;
                     break;
                 case '-':
-                    correctAnswer_ = (Value1 - Value2).ToString();
+                    CorrectAnswer = Value1 - Value2;
                     break;
                 case '*':
-                    correctAnswer_ = (Value1 * Value2).ToString();
+                    CorrectAnswer = Value1 * Value2;
                     break;
                 case '/':
-                    correctAnswer_ = (Value1 / Value2).ToString();
+                    try
+                    {
+                        CorrectAnswer = Value1 / Value2;
+                    }
+                    catch (DivideByZeroException)
+                    {
+                        do
+                        {
+                            Value2 = GenerateRandomByte();
+                        }
+                        while (Value2 == 0);
+                    }
                     break;
             }
         }

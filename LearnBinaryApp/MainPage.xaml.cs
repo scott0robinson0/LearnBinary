@@ -23,34 +23,35 @@ namespace LearnBinaryApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private static Question question = new Question();
+        //private static ConversionQuestion question = new ConversionQuestion();
+        private static ArithmeticQuestion question = new ArithmeticQuestion();
         public MainPage()
         {
             this.InitializeComponent();
 
-            txtQuestion.Text = question.ToString();
-
-            int test = -2;
-
-            txtQuestion.Text = Convert.ToString(test, 2);
+            tbQuestion.Text = question.ToString();
 
             // Colour code binary and decimal numbers to differentiate them, e.g. 11 could be 3 or eleven.
         }
 
-        private void NewQuestion_Click(object sender, RoutedEventArgs e)
+        private void BtnNewQuestion_Click(object sender, RoutedEventArgs e)
         {
-            question = new Question();
-            txtQuestion.Text = question.ToString();
+            //question = new ConversionQuestion();
+            question = new ArithmeticQuestion();
+            tbQuestion.Text = question.ToString();
+            tbResult.Text = "";
+            tbRevealAnswer.Text = "";
+            txtAnswer.Text = "";
         }
 
-        private void btnSubmitAnswer_Click(object sender, RoutedEventArgs e)
+        private void BtnSubmitAnswer_Click(object sender, RoutedEventArgs e)
         {
-            question.CheckAnswer(txtAnswer.Text);
+            tbResult.Text = question.CheckAnswer(txtAnswer.Text) ? "Correct!" : "Incorrect.";
         }
 
-        private void btnRevealAnswer_Click(object sender, RoutedEventArgs e)
+        private void BtnRevealAnswer_Click(object sender, RoutedEventArgs e)
         {
-            txtRevealAnswer.Text = question.CorrectAnswer.ToString();
+            tbRevealAnswer.Text = question.CorrectAnswer.ToString();
         }
     }
 }

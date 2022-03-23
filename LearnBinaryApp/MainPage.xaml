@@ -9,14 +9,14 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <StackPanel>
-            <TextBlock x:Name="txtQuestion"/>
-            <TextBox x:Name="txtAnswer"/>
-            <Button x:Name="btnSubmitAnswer" Content="Submit Answer" Click="btnSubmitAnswer_Click"/>
-            <Button x:Name="btnRevealAnswer" Content="Reveal Answer" Click="btnRevealAnswer_Click"/>
-            <TextBlock x:Name="txtRevealAnswer"/>
-            <TextBlock x:Name="tbResult"/>
-            <Button x:Name="NewQuestion" Content="New Question" Click="NewQuestion_Click"/>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock x:Name="tbQuestion" Margin="5"/>
+            <TextBox x:Name="txtAnswer" Margin="5"/>
+            <Button x:Name="btnSubmitAnswer" Content="Submit Answer" Click="BtnSubmitAnswer_Click" HorizontalAlignment="Center" Width="500" Margin="5"/>
+            <Button x:Name="btnRevealAnswer" Content="Reveal Answer" Click="BtnRevealAnswer_Click" HorizontalAlignment="Center" Width="500" Margin="5"/>
+            <Button x:Name="btnNewQuestion" Content="New Question" Click="BtnNewQuestion_Click" Width="500" Margin="5"/>
+            <TextBlock x:Name="tbRevealAnswer" Margin="5"/>
+            <TextBlock x:Name="tbResult" Margin="5"/>
         </StackPanel>
     </Grid>
 </Page>
