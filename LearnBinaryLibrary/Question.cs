@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace LearnBinaryLibrary
 {
-    public class Question
+    public abstract class Question
     {
         protected readonly Dictionary<int, string> validBases = new Dictionary<int, string> { { 2, "binary" }, { 10, "decimal" } };
 
         protected readonly Random random = new Random();
-
-
 
         private int value1Base_;
         public int Value1Base
@@ -60,7 +58,7 @@ namespace LearnBinaryLibrary
             return Convert.ToByte(random.Next(byte.MinValue, byte.MaxValue + 1));
         }
 
-        public virtual void CalculateCorrectAnswer() { }
+        public abstract void CalculateCorrectAnswer();
 
         public Question()
         {
@@ -68,9 +66,6 @@ namespace LearnBinaryLibrary
             CorrectAnswerBase = GenerateRandomBase();
             Value1 = GenerateRandomByte();
         }
-
-
-
 
 
 

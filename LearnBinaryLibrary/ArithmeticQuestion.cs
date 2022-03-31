@@ -7,7 +7,7 @@ namespace LearnBinaryLibrary
     {
         private readonly char[] validOperators = new char[] { '+', '-', '*', '/' };
 
-        public double CorrectAnswer { get; private set; }
+        public int CorrectAnswer { get; private set; }
 
         private char operator_;
         public char Operator
@@ -60,14 +60,10 @@ namespace LearnBinaryLibrary
             }
 
         }
-        public bool CheckAnswer(string answer)
-        {
-            return answer == CorrectAnswer.ToString();
-        }
 
         public override void CalculateCorrectAnswer()
         {
-            switch (Operator) // better to use operator_?
+            switch (Operator)
             {
                 case '+':
                     CorrectAnswer = Value1 + Value2;
@@ -79,20 +75,17 @@ namespace LearnBinaryLibrary
                     CorrectAnswer = Value1 * Value2;
                     break;
                 case '/':
-                    try
+                    while (Value2 == 0)
                     {
-                        CorrectAnswer = Value1 / Value2;
+                        Value2 = GenerateRandomByte();
                     }
-                    catch (DivideByZeroException)
-                    {
-                        do
-                        {
-                            Value2 = GenerateRandomByte();
-                        }
-                        while (Value2 == 0);
-                    }
+                    CorrectAnswer = Value1 / Value2;
+                    break;
+                default:
+                    CorrectAnswer = 0;
                     break;
             }
+
         }
 
         public override string ToString()
@@ -103,6 +96,11 @@ namespace LearnBinaryLibrary
         public char GenerateRandomOperator()
         {
             return validOperators[random.Next(0, validOperators.Length)];
+        }
+
+        public bool CheckAnswer(string answer)
+        {
+            return answer == Convert.ToString(CorrectAnswer, CorrectAnswerBase);
         }
     }
 }

@@ -24,20 +24,66 @@ namespace LearnBinaryApp
     public sealed partial class MainPage : Page
     {
         //private static ConversionQuestion question = new ConversionQuestion();
-        private static ArithmeticQuestion question = new ArithmeticQuestion();
+        //private static ArithmeticQuestion question = new ArithmeticQuestion();
+
+        private static Question question;
+
+        private static void NewQuestion()
+        {
+            Random random = new Random();
+
+            switch (random.Next(0, 2))
+            {
+                case 0:
+                    question = new ArithmeticQuestion();
+                    break;
+                case 1:
+                    question = new ConversionQuestion();
+                    break;
+            }
+
+        }
+
+        //private static Question GenertateRandomQuestion()
+        //{
+        //    Random random = new Random();
+
+        //    switch (random.Next(0, 2))
+        //    {
+        //        case 0:
+        //            ArithmeticQuestion question3 = new ArithmeticQuestion();
+        //            return question3;
+        //        case 1:
+        //            ConversionQuestion question4 = new ConversionQuestion();
+        //            return question4;
+        //        default:
+        //            throw new Exception("");
+        //    }
+
+        //}
+
+        public Question test()
+        {
+            ArithmeticQuestion question2 = new ArithmeticQuestion();
+            return question2;
+        }
+
         public MainPage()
         {
             this.InitializeComponent();
 
+            NewQuestion();
+
             tbQuestion.Text = question.ToString();
 
-            // Colour code binary and decimal numbers to differentiate them, e.g. 11 could be 3 or eleven.
+            // Colour code binary and decimal numbers to differentiate them? e.g. 11 could be 3 or eleven.
         }
 
         private void BtnNewQuestion_Click(object sender, RoutedEventArgs e)
         {
             //question = new ConversionQuestion();
-            question = new ArithmeticQuestion();
+            //question = new ArithmeticQuestion();
+            NewQuestion();
             tbQuestion.Text = question.ToString();
             tbResult.Text = "";
             tbRevealAnswer.Text = "";
@@ -46,12 +92,36 @@ namespace LearnBinaryApp
 
         private void BtnSubmitAnswer_Click(object sender, RoutedEventArgs e)
         {
-            tbResult.Text = question.CheckAnswer(txtAnswer.Text) ? "Correct!" : "Incorrect.";
+            if (question is ArithmeticQuestion)
+            {
+                ArithmeticQuestion arithmeticQuestion = (ArithmeticQuestion)question;
+                tbResult.Text = arithmeticQuestion.CheckAnswer(txtAnswer.Text) ? "Correct!" : "Incorrect.";
+            }
+            else if (question is ConversionQuestion)
+            {
+                ConversionQuestion conversionQuestion = (ConversionQuestion)question;
+                tbResult.Text = conversionQuestion.CheckAnswer(txtAnswer.Text) ? "Correct!" : "Incorrect.";
+            }
+            
         }
 
         private void BtnRevealAnswer_Click(object sender, RoutedEventArgs e)
         {
-            tbRevealAnswer.Text = question.CorrectAnswer.ToString();
+            if (question is ArithmeticQuestion)
+            {
+                ArithmeticQuestion arithmeticQuestion = (ArithmeticQuestion)question;
+                tbRevealAnswer.Text = Convert.ToString(arithmeticQuestion.CorrectAnswer, arithmeticQuestion.CorrectAnswerBase);
+            }
+            else if (question is ConversionQuestion)
+            {
+                ConversionQuestion conversionQuestion = (ConversionQuestion)question;
+                tbRevealAnswer.Text = conversionQuestion.CorrectAnswer;
+            }
+        }
+
+        private void txtAnswer_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        {
+            args.Cancel = args.NewText.Any(c => !char.IsDigit(c));
         }
     }
 }

@@ -11,7 +11,7 @@
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock x:Name="tbQuestion" Margin="5"/>
-            <TextBox x:Name="txtAnswer" Margin="5"/>
+            <TextBox x:Name="txtAnswer" BeforeTextChanging="txtAnswer_BeforeTextChanging" Margin="5"/>
             <Button x:Name="btnSubmitAnswer" Content="Submit Answer" Click="BtnSubmitAnswer_Click" HorizontalAlignment="Center" Width="500" Margin="5"/>
             <Button x:Name="btnRevealAnswer" Content="Reveal Answer" Click="BtnRevealAnswer_Click" HorizontalAlignment="Center" Width="500" Margin="5"/>
             <Button x:Name="btnNewQuestion" Content="New Question" Click="BtnNewQuestion_Click" Width="500" Margin="5"/>
